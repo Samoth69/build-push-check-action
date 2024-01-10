@@ -42,6 +42,22 @@ runs:
             username: ${{ inputs.registry_username }}
             password: ${{ inputs.registry_password }}
       - 
+        name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ inputs.build_context }}
+          load: true
+          file: ${{ inputs.build_dockerfile }}
+          tags: ${{ inputs.build_tag }}
+      -
+        name: Anchore Container Scan
+        uses: anchore/scan-action@v3.5.0
+        with:
+          image: ${{ inputs.build_tag }}
+          fail-build: true
+          output-format: table
+          only-fixed: true
+      - 
         id: build-image
         name: Build and push
         uses: docker/build-push-action@v5
@@ -50,11 +66,3 @@ runs:
           push: true
           file: ${{ inputs.build_dockerfile }}
           tags: ${{ inputs.registry_hostname }}/${{ inputs.build_tag }}
-      -
-        name: Anchore Container Scan
-        uses: anchore/scan-action@v3.5.0
-        with:
-          image: ${{ inputs.registry_hostname }}/${{ inputs.build_tag }}
-          fail-build: true
-          output-format: table
-          only-fixed: true
