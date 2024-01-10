@@ -56,7 +56,5 @@ runs:
         with:
           image: ${{ inputs.registry_hostname }}/${{ inputs.build_tag }}
           fail-build: true
-          registry-username: ${{ inputs.registry_username }}
-          registry-password: ${{ inputs.registry_password }}
           output-format: table
           only-fixed: true
