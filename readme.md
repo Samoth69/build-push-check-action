@@ -7,6 +7,11 @@
 ## to release a new version
 
 ```bash
-git tag -a -m "Description of this release" v1
-git push
+# si tu veux delete un tag distant
+git tag -d v2
+git push origin :refs/tags/v2
+
+# procédure "standard"
+git tag -a -m "..." v2
+git push --follow-tags
 ```
