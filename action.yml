@@ -19,7 +19,7 @@ inputs:
     default: ""
   build_dockerfile:
     description: "Dockerfile path"
-    default: "${{build_context}}/Dockerfile"
+    default: "${{ inputs.build_context }}/Dockerfile"
 
 outputs:
   imageid:
