@@ -51,9 +51,11 @@ runs:
           file: ${{ inputs.build_dockerfile }}
           tags: ${{ inputs.registry_hostname }}/${{ inputs.build_tag }}
       -
-        uses: anchore/scan-action@v3
+        name: Anchore Container Scan
+        uses: anchore/scan-action@v3.5.0
         with:
           image: ${{ inputs.registry_hostname }}/${{ inputs.build_tag }}
           fail-build: false
           registry-username: ${{ inputs.registry_username }}
           registry-password: ${{ inputs.registry_password }}
+          output-format: table
