@@ -55,7 +55,8 @@ runs:
         uses: anchore/scan-action@v3.5.0
         with:
           image: ${{ inputs.registry_hostname }}/${{ inputs.build_tag }}
-          fail-build: false
+          fail-build: true
           registry-username: ${{ inputs.registry_username }}
           registry-password: ${{ inputs.registry_password }}
           output-format: table
+          only-fixed: true
