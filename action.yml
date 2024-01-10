@@ -1,0 +1,53 @@
+name: 'Docker Build Push Test'
+description: 'Build & push a docker image and then test the image against Grype'
+
+inputs:
+  registry_hostname:
+    description: "Hostname of the image registry"
+    default: "hub.docker.com"
+  registry_username:
+    description: "Username for image registry"
+    required: true
+  registry_password:
+    description: "Password for image registry"
+    required: true
+  build_tag:
+    description: "Docker image tag"
+    required: true
+  build_context:
+    description: "Docker build context"
+    default: ""
+  build_dockerfile:
+    description: "Dockerfile path"
+    default: "Dockerfile"
+
+outputs:
+  imageid:
+    description: "Built image id"
+    value: ${{ steps.build_image.outputs.imageid }}
+
+runs:
+  using: "composite"
+  steps:
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - 
+        name: Docker login
+        uses: docker/login-action@v3
+        with:
+            registry: ${{ inputs.registry_hostname }}
+            username: ${{ inputs.registry_username }}
+            password: ${{ inputs.registry_password }}
+      - 
+        id: build-image
+        name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ inputs.build_context }}
+          push: true
+          file: ${{ inputs.build_dockerfile }}
+          tags: ${{ inputs.build_tag }}
