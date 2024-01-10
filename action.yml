@@ -49,4 +49,4 @@ runs:
           context: ${{ inputs.build_context }}
           push: true
           file: ${{ inputs.build_dockerfile }}
-          tags: ${{ inputs.build_tag }}
+          tags: ${{ inputs.registry_hostname }}/${{ inputs.build_tag }}
