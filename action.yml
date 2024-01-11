@@ -42,7 +42,6 @@ runs:
             username: ${{ inputs.registry_username }}
             password: ${{ inputs.registry_password }}
       - 
-        id: build-image
         name: Build
         uses: docker/build-push-action@v5
         with:
@@ -59,6 +58,7 @@ runs:
           output-format: table
           only-fixed: true
       - 
+        id: build-image
         name: Build and push
         uses: docker/build-push-action@v5
         with:
